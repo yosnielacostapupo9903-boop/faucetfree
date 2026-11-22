@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gana Cripto Sin Inversión</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- SOLUCIÓN AL REBOTE (OVERSCROLL) --- */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overscroll-behavior-y: none;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            background-image: linear-gradient(180deg, #0f172a 0%, #0f172a 85%, #020617 100%);
+            background-attachment: fixed;
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+        }
+
+        /* --- SELECTOR DE IDIOMAS --- */
+        .lang-selector {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .lang-btn {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .lang-btn:hover {
+            background-color: #334155;
+        }
+
+        .lang-btn img {
+            width: 24px;
+            height: 18px;
+            border-radius: 2px;
+            object-fit: cover;
+        }
+
+        .lang-dropdown {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 5px;
+            margin-top: 5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .lang-dropdown.active {
+            display: flex;
+        }
+
+        .lang-option {
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .lang-option:hover {
+            background-color: #334155;
+        }
+
+        .lang-option img {
+            width: 20px;
+            height: 15px;
+            border-radius: 2px;
+            object-fit: cover;
+        }
+
+        .lang-option span {
+            font-size: 0.75rem;
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+
+        /* --- RESTO DE ESTILOS --- */
+        header {
+            text-align: center;
+            padding: 35px 15px 10px;
+            max-width: 800px;
+            margin-top: 40px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: brilloDeslizante 3s infinite;
+        }
+
+        @keyframes brilloDeslizante {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            margin-bottom: 10px;
+        }
+
+        .update-badge {
+            background-color: rgba(34, 197, 94, 0.15);
+            border: 1px solid #4ade80;
+            border-radius: 8px;
+            padding: 6px 12px;
+            margin-bottom: 15px;
+            display: inline-block;
+            color: #4ade80;
+            font-weight: 600;
+            font-size: 0.8rem;
+            animation: pulseBadge 2s infinite;
+        }
+
+        @keyframes pulseBadge {
+            0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+        }
+
+        .whatsapp-small-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #1e293b;
+            border: 1px solid #25D366;
+            border-radius: 20px;
+            padding: 8px 15px;
+            text-decoration: none;
+            max-width: 90%;
+            margin: 0 auto 20px auto;
+            transition: background 0.3s;
+            animation: respirarWhatsApp 3s infinite ease-in-out;
+        }
+
+        .whatsapp-small-bar:hover {
+            background-color: rgba(37, 211, 102, 0.15);
+            animation-play-state: paused;
+        }
+
+        @keyframes respirarWhatsApp {
+            0% { box-shadow: 0 0 0px rgba(37, 211, 102, 0); transform: scale(1); }
+            50% { box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); transform: scale(1.02); }
+            100% { box-shadow: 0 0 0px rgba(37, 211, 102, 0); transform: scale(1); }
+        }
+
+        .whatsapp-icon {
+            width: 18px;
+            height: 18px;
+            animation: balanceoWhatsApp 2s infinite ease-in-out;
+        }
+
+        @keyframes balanceoWhatsApp {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            75% { transform: rotate(-10deg); }
+        }
+
+        .whatsapp-text {
+            color: #25D366;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 15px;
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .faucet-card {
+            background-color: #1e293b;
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .faucet-card:hover {
+            border-color: #38bdf8;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.15);
+        }
+
+        .faucet-header {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 8px;
+        }
+
+        .faucet-name {
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin: 0 0 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            line-height: 1.2;
+        }
+
+        .faucet-logo {
+            width: 18px; 
+            height: 18px; 
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .stars-container {
+            display: flex;
+            align-items: center;
+            gap: 1px;
+            font-size: 0.75rem;
+            margin-bottom: 5px;
+        }
+        .star-full { color: #fbbf24; }
+        .star-half { color: #fbbf24; opacity: 0.7; }
+        .star-empty { color: #475569; }
+        .rating-number {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            margin-left: 4px;
+        }
+
+        .btn-claim {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+            color: white;
+            text-decoration: none;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.75rem;
+            transition: background 0.3s;
+            box-sizing: border-box;
+            margin-bottom: 6px;
+        }
+
+        .btn-claim:hover {
+            background: linear-gradient(90deg, #1d4ed8, #2563eb);
+        }
+
+        .btn-mini-faucetpay {
+            display: block;
+            width: 100%;
+            text-align: center;
+            color: #fbbf24;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.65rem;
+            transition: color 0.2s;
+        }
+
+        .btn-mini-faucetpay:hover {
+            color: #f59e0b;
+            text-decoration: underline;
+        }
+
+        .faucet-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            opacity: 0;
+        }
+
+        .faucet-card.active .faucet-details {
+            max-height: 200px;
+            opacity: 1;
+            margin-bottom: 10px;
+        }
+
+        .faucet-desc {
+            font-size: 0.75rem;
+            color: #cbd5e1;
+            margin: 5px 0;
+            line-height: 1.3;
+            text-align: left;
+        }
+
+        .min-withdraw {
+            font-size: 0.7rem;
+            color: #38bdf8;
+            margin-bottom: 8px;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .top-badge {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+        .top-1, .top-2 {
+            background-color: #ef4444;
+        }
+        .top-rest {
+            background-color: #475569;
+        }
+
+        .faucetpay-small {
+            grid-column: 1 / -1;
+            background-color: #1e293b;
+            border: 1px solid #0ea5e9;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .faucetpay-small h2 {
+            color: #38bdf8;
+            font-size: 1rem;
+            margin: 0 0 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .faucetpay-small p {
+            color: #94a3b8;
+            font-size: 0.75rem;
+            margin: 0 0 10px 0;
+        }
+
+        .btn-faucetpay-small {
+            display: inline-block;
+            background: #0ea5e9;
+            color: white;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            transition: background 0.3s;
+        }
+
+        .btn-faucetpay-small:hover {
+            background: #0284c7;
+        }
+
+        .info-footer {
+            text-align: center;
+            padding: 10px 15px 30px;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .info-footer-link {
+            color: #4ade80;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .info-footer-link:hover {
+            color: #22c55e;
+            text-decoration: underline;
+        }
+
+        .footer-disclaimer {
+            font-size: 0.7rem;
+            color: #64748b;
+            text-align: center;
+            padding: 0 15px 30px;
+            max-width: 600px;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: #1e293b;
+            border: 1px solid #38bdf8;
+            border-radius: 16px;
+            padding: 25px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.5rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .modal-close:hover {
+            color: white;
+        }
+
+        .modal-content h2 {
+            color: #38bdf8;
+            margin-top: 0;
+            font-size: 1.4rem;
+        }
+
+        .modal-content p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .modal-content ul {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            padding-left: 20px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SELECTOR DE IDIOMAS -->
+    <div class="lang-selector">
+        <div class="lang-btn" onclick="toggleLangMenu()">
+            <img src="https://flagcdn.com/w40/es.png" alt="Idioma" id="current-flag">
+        </div>
+        <div class="lang-dropdown" id="lang-dropdown">
+            <div class="lang-option" onclick="changeLanguage('es')">
+                <img src="https://flagcdn.com/w40/es.png" alt="ES">
+                <span>Español</span>
+            </div>
+            <div class="lang-option" onclick="changeLanguage('en')">
+                <img src="https://flagcdn.com/w40/gb.png" alt="EN">
+                <span>English</span>
+            </div>
+            <div class="lang-option" onclick="changeLanguage('ru')">
+                <img src="https://flagcdn.com/w40/ru.png" alt="RU">
+                <span>Русский</span>
+            </div>
+            <div class="lang-option" onclick="changeLanguage('fr')">
+                <img src="https://flagcdn.com/w40/fr.png" alt="FR">
+                <span>Français</span>
+            </div>
+            <div class="lang-option" onclick="changeLanguage('pt')">
+                <img src="https://flagcdn.com/w40/br.png" alt="PT">
+                <span>Português</span>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <h1 data-i18n="title">Gana Cripto Sin Inversión</h1>
+        <p class="subtitle" data-i18n="subtitle">Pagos verificados a FaucetPay.</p>
+       
+        <div class="update-badge" data-i18n="updateBadge">
+            🔥 Actualizado hoy: 8 páginas verificadas
+        </div>
+
+        <a href="https://whatsapp.com/channel/0029Vb9BGivAe5Vk7tyMCG1Q" class="whatsapp-small-bar" target="_blank" rel="noopener">
+            <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+            </svg>
+            <span class="whatsapp-text" data-i18n="whatsappText">Más faucets, bots y APKs en mi canal</span>
+        </a>
+    </header>
+
+    <div class="container">
+        
+        <!-- TARJETA 1: FireFaucet -->
+        <div class="faucet-card" onclick="this.classList.toggle('active')">
+            <span class="top-badge top-1">TOP #1</span>
+            <div class="faucet-header">
+                <h2 class="faucet-name">
+                    <img src="https://firefaucet.win/favicon.ico" class="faucet-logo">
+                    FireFaucet
+                </h2>
+                <div class="stars-container">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-half">★</span>
+                    <span class="rating-number">4.8</span>
+                </div>
+            </div>
+            <div class="faucet-details">
+                <p class="faucet-desc" data-i18n="desc_fire">Veterana desde 2018. Gana viendo anuncios y tareas.</p>
+                <div class="min-withdraw" data-i18n="min_fire">Mín: $2.50 USD</div>
+            </div>
+            <a href="https://firefaucet.win/ref/898159" class="btn-claim" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_register">Registrarme</a>
+            <a href="https://faucetpay.io/r/3636076" class="btn-mini-faucetpay" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_no_faucetpay">¿No tienes FaucetPay?</a>
+        </div>
+
+        <!-- TARJETA 2: VieFaucet -->
+        <div class="faucet-card" onclick="this.classList.toggle('active')">
+            <span class="top-badge top-2">TOP #2</span>
+            <div class="faucet-header">
+                <h2 class="faucet-name">
+                    <img src="https://viefaucet.com/favicon.ico" class="faucet-logo">
+                    VieFaucet
+                </h2>
+                <div class="stars-container">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-half">★</span>
+                    <span class="rating-number">4.5</span>
+                </div>
+            </div>
+            <div class="faucet-details">
+                <p class="faucet-desc" data-i18n="desc_vie">Retiros casi instantáneos a FaucetPay.</p>
+                <div class="min-withdraw" data-i18n="min_vie">Mín: ~$0.01 USD</div>
+            </div>
+            <a href="https://viefaucet.com?r=6a35309ea0662d9deeb8b87f" class="btn-claim" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_register">Registrarme</a>
+            <a href="https://faucetpay.io/r/3636076" class="btn-mini-faucetpay" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_no_faucetpay">¿No tienes FaucetPay?</a>
+        </div>
+
+        <!-- TARJETA 3: MyClaimer -->
+        <div class="faucet-card" onclick="this.classList.toggle('active')">
+            <span class="top-badge top-rest">TOP #3</span>
+            <div class="faucet-header">
+                <h2 class="faucet-name">
+                    <span style="font-size: 1rem;">📋</span> MyClaimer
+                </h2>
+                <div class="stars-container">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-half">★</span>
+                    <span class="rating-number">4.7</span>
+                </div>
+            </div>
+            <div class="faucet-details">
+                <p class="faucet-desc" data-i18n="desc_myc">Pruebas de pago en vivo. Faucet y ofertas.</p>
+                <div class="min-withdraw" data-i18n="min_var">Mín: Variable</div>
+            </div>
+            <a href="https://myclaimer.com/?r=yosnielacostapupo9903" class="btn-claim" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_register">Registrarme</a>
+            <a href="https://faucetpay.io/r/3636076" class="btn-mini-faucetpay" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_no_faucetpay">¿No tienes FaucetPay?</a>
+        </div>
+
+        <!-- TARJETA 4: BunnyFaucet -->
+        <div class="faucet-card" onclick="this.classList.toggle('active')">
+            <span class="top-badge top-rest">TOP #4</span>
+            <div class="faucet-header">
+                <h2 class="faucet-name">
+                    <img src="https://bunnyfaucet.com/favicon.ico" class="faucet-logo">
+                    BunnyFaucet
+                </h2>
+                <div class="stars-container">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-empty">★</span>
+                    <span class="rating-number">4.2</span>
+                </div>
+            </div>
+            <div class="faucet-details">
+                <p class="faucet-desc" data-i18n="desc_bunny">Nuevo pero con pagos comprobados. PTC y clics.</p>
+                <div class="min-withdraw" data-i18n="min_consult">Mín: Consultar</div>
+            </div>
+            <a href="https://bunnyfaucet.com/ref?r=yosnielacostapupo" class="btn-claim" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_register">Registrarme</a>
+            <a href="https://faucetpay.io/r/3636076" class="btn-mini-faucetpay" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_no_faucetpay">¿No tienes FaucetPay?</a>
+        </div>
+
+        <!-- TARJETA 5: EmRewards -->
+        <div class="faucet-card" onclick="this.classList.toggle('active')">
+            <span class="top-badge top-rest">TOP #5</span>
+            <div class="faucet-header">
+                <h2 class="faucet-name">
+                    <span style="font-size: 1rem;">💎</span> EmRewards
+                </h2>
+                <div class="stars-container">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-half">★</span>
+                    <span class="rating-number">4.6</span>
+                </div>
+            </div>
+            <div class="faucet-details">
+                <p class="faucet-desc" data-i18n="desc_em">Sitio nuevo probado con éxito. Retiros directos.</p>
+                <div class="min-withdraw" data-i18n="min_consult">Mín: Consultar</div>
+            </div>
+            <a href="https://emrewards.world/index.php?page=register&ref=C04BEF32E2" class="btn-claim" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_register">Registrarme</a>
+            <a href="https://faucetpay.io/r/3636076" class="btn-mini-faucetpay" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_no_faucetpay">¿No tienes FaucetPay?</a>
+        </div>
+
+        <!-- TARJETA 6: Coinli -->
+        <div class="faucet-card" onclick="this.classList.toggle('active')">
+            <span class="top-badge top-rest">TOP #6</span>
+            <div class="faucet-header">
+                <h2 class="faucet-name">
+                    <span style="font-size: 1rem;">🪙</span> Coinli
+                </h2>
+                <div class="stars-container">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-half">★</span>
+                    <span class="rating-number">4.8</span>
+                </div>
+            </div>
+            <div class="faucet-details">
+                <p class="faucet-desc" data-i18n="desc_coinli">Gana por tareas, videos y ofertas. Retiros a FaucetPay.</p>
+                <div class="min-withdraw" data-i18n="min_001">Mín: $0.01 USD</div>
+            </div>
+            <a href="https://coinli.net/i/65613" class="btn-claim" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_register">Registrarme</a>
+            <a href="https://faucetpay.io/r/3636076" class="btn-mini-faucetpay" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_no_faucetpay">¿No tienes FaucetPay?</a>
+        </div>
+
+        <!-- TARJETA 7: LimeFaucet -->
+        <div class="faucet-card" onclick="this.classList.toggle('active')">
+            <span class="top-badge top-rest">TOP #7</span>
+            <div class="faucet-header">
+                <h2 class="faucet-name">
+                    <span style="font-size: 1.1rem;">🍋</span> LimeFaucet
+                </h2>
+                <div class="stars-container">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-half">★</span>
+                    <span class="rating-number">4.9</span>
+                </div>
+            </div>
+            <div class="faucet-details">
+                <p class="faucet-desc" data-i18n="desc_lime">El faucet más rápido. Reclama cada 5 minutos. Soporta más de 10 criptomonedas.</p>
+                <div class="min-withdraw" data-i18n="min_instant">Mín: Instantáneo a FaucetPay</div>
+            </div>
+            <a href="https://limefaucet.com/ref/1HtBkjrWXrjjnWFO" class="btn-claim" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_register">Registrarme</a>
+            <a href="https://faucetpay.io/r/3636076" class="btn-mini-faucetpay" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_no_faucetpay">¿No tienes FaucetPay?</a>
+        </div>
+
+        <!-- TARJETA 8: Lootizy -->
+        <div class="faucet-card" onclick="this.classList.toggle('active')">
+            <span class="top-badge top-rest">TOP #8</span>
+            <div class="faucet-header">
+                <h2 class="faucet-name">
+                    <span style="font-size: 1.1rem;">🎁</span> Lootizy
+                </h2>
+                <div class="stars-container">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-half">★</span>
+                    <span class="rating-number">4.7</span>
+                </div>
+            </div>
+            <div class="faucet-details">
+                <p class="faucet-desc" data-i18n="desc_lootizy">Gana recompensas por completar tareas simples y ofertas. Retiros a FaucetPay.</p>
+                <div class="min-withdraw" data-i18n="min_001">Mín: $0.01 USD</div>
+            </div>
+            <a href="https://lootizy.com/?r=68c003c4ee090c13da7f65fe" class="btn-claim" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_register">Registrarme</a>
+            <a href="https://faucetpay.io/r/3636076" class="btn-mini-faucetpay" target="_blank" onclick="event.stopPropagation()" data-i18n="btn_no_faucetpay">¿No tienes FaucetPay?</a>
+        </div>
+
+        <!-- SECCIÓN FAUCETPAY -->
+        <div class="faucetpay-small">
+            <h2>
+                <img src="https://faucetpay.io/favicon.ico" class="faucet-logo" style="width: 20px; height: 20px;">
+                <span data-i18n="fp_title">Billetera FaucetPay</span>
+            </h2>
+            <p data-i18n="fp_desc">Recibe los pagos de todas estas faucets en un solo lugar.</p>
+            <a href="https://faucetpay.io/r/3636076" class="btn-faucetpay-small" target="_blank" data-i18n="fp_btn">Empezar a ganar ya (Gratis)</a>
+        </div>
+
+    </div>
+
+    <div class="info-footer">
+        <a class="info-footer-link" onclick="openModal('modal-faucet')" data-i18n="link_faucet">¿Qué es una faucet?</a>
+        <a class="info-footer-link" onclick="openModal('modal-faucetpay')" data-i18n="link_fp">¿Qué es FaucetPay?</a>
+    </div>
+
+    <div class="footer-disclaimer">
+        <p data-i18n="disclaimer">Aviso: Los enlaces son de afiliado. Recibo una pequeña comisión sin costo extra para ti.</p>
+    </div>
+
+    <!-- MODAL FAUCET -->
+    <div id="modal-faucet" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal(event, true)">×</button>
+            <h2 data-i18n="modal_f_title">🚰 ¿Qué es una Faucet?</h2>
+            <div data-i18n="modal_f_content">
+                <p>Una "faucet" (grifo en inglés) es una página web que <strong>regala pequeñas cantidades de criptomonedas</strong> a cambio de tu tiempo.</p>
+                <p>¿Por qué lo hacen? Porque los dueños de estas páginas ganan dinero mostrando anuncios o haciendo encuestas. Ellos se quedan con una parte y te dan a ti la otra.</p>
+                <p><strong>¿Cómo funcionan?</strong></p>
+                <ul>
+                    <li>Te registras gratis.</li>
+                    <li>Haces clics en anuncios o ves videos.</li>
+                    <li>Acumulas puntos o "satoshis" (fracciones de cripto).</li>
+                    <li>Cuando llegas al mínimo, los retiras a tu billetera (como FaucetPay).</li>
+                </ul>
+                <p>¡Es una forma real de empezar en el mundo cripto sin invertir dinero!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL FAUCETPAY -->
+    <div id="modal-faucetpay" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal(event, true)">×</button>
+            <h2 data-i18n="modal_fp_title">💳 ¿Qué es FaucetPay?</h2>
+            <div data-i18n="modal_fp_content">
+                <p>FaucetPay es una <strong>billetera digital (micro-wallet)</strong> diseñada específicamente para quienes ganan criptomonedas en faucets y sitios de tareas.</p>
+                <p>En lugar de tener que retirar 1 dólar de 10 páginas diferentes (perdiendo dinero en comisiones), usas FaucetPay como centro de acopio.</p>
+                <p><strong>Sus ventajas principales:</strong></p>
+                <ul>
+                    <li><strong>Sin comisiones:</strong> Recibir pagos de las faucets es gratis.</li>
+                    <li><strong>Todo en uno:</strong> Soporta más de 20 criptomonedas (BTC, DOGE, LTC, USDT, etc.).</li>
+                    <li><strong>Retiros:</strong> Puedes enviar a tu billetera personal (Binance, Trust Wallet) cuando tengas el mínimo.</li>
+                    <li><strong>Fácil de usar:</strong> Solo necesitas un correo electrónico para empezar.</li>
+                </ul>
+                <p>Es el "banco central" de tu ecosistema de faucets.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- LÓGICA DE MODALES ---
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(event, force = false) {
+            if (force || event.target.classList.contains('modal-overlay')) {
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+
+        // --- LÓGICA DE IDIOMAS ---
+        function toggleLangMenu() {
+            document.getElementById('lang-dropdown').classList.toggle('active');
+        }
+
+        // Cerrar el menú de idiomas si se hace clic fuera de él
+        document.addEventListener('click', function(event) {
+            const selector = document.querySelector('.lang-selector');
+            if (selector && !selector.contains(event.target)) {
+                document.getElementById('lang-dropdown').classList.remove('active');
+            }
+        });
+
+        const translations = {
+            es: {
+                title: "Gana Cripto Sin Inversión",
+                subtitle: "Pagos verificados a FaucetPay.",
+                updateBadge: "🔥 Actualizado hoy: 8 páginas verificadas",
+                whatsappText: "Más faucets, bots y APKs en mi canal",
+                btn_register: "Registrarme",
+                btn_no_faucetpay: "¿No tienes FaucetPay?",
+                desc_fire: "Veterana desde 2018. Gana viendo anuncios y tareas.",
+                min_fire: "Mín: $2.50 USD",
+                desc_vie: "Retiros casi instantáneos a FaucetPay.",
+                min_vie: "Mín: ~$0.01 USD",
+                desc_myc: "Pruebas de pago en vivo. Faucet y ofertas.",
+                min_var: "Mín: Variable",
+                desc_bunny: "Nuevo pero con pagos comprobados. PTC y clics.",
+                min_consult: "Mín: Consultar",
+                desc_em: "Sitio nuevo probado con éxito. Retiros directos.",
+                desc_coinli: "Gana por tareas, videos y ofertas. Retiros a FaucetPay.",
+                min_001: "Mín: $0.01 USD",
+                desc_lime: "El faucet más rápido. Reclama cada 5 minutos. Soporta más de 10 criptomonedas.",
+                min_instant: "Mín: Instantáneo a FaucetPay",
+                desc_lootizy: "Gana recompensas por completar tareas simples y ofertas. Retiros a FaucetPay.",
+                fp_title: "Billetera FaucetPay",
+                fp_desc: "Recibe los pagos de todas estas faucets en un solo lugar.",
+                fp_btn: "Empezar a ganar ya (Gratis)",
+                link_faucet: "¿Qué es una faucet?",
+                link_fp: "¿Qué es FaucetPay?",
+                disclaimer: "Aviso: Los enlaces son de afiliado. Recibo una pequeña comisión sin costo extra para ti.",
+                modal_f_title: "🚰 ¿Qué es una Faucet?",
+                modal_f_content: `<p>Una "faucet" (grifo en inglés) es una página web que <strong>regala pequeñas cantidades de criptomonedas</strong> a cambio de tu tiempo.</p>
+                <p>¿Por qué lo hacen? Porque los dueños de estas páginas ganan dinero mostrando anuncios o haciendo encuestas. Ellos se quedan con una parte y te dan a ti la otra.</p>
+                <p><strong>¿Cómo funcionan?</strong></p>
+                <ul>
+                    <li>Te registras gratis.</li>
+                    <li>Haces clics en anuncios o ves videos.</li>
+                    <li>Acumulas puntos o "satoshis" (fracciones de cripto).</li>
+                    <li>Cuando llegas al mínimo, los retiras a tu billetera (como FaucetPay).</li>
+                </ul>
+                <p>¡Es una forma real de empezar en el mundo cripto sin invertir dinero!</p>`,
+                modal_fp_title: "💳 ¿Qué es FaucetPay?",
+                modal_fp_content: `<p>FaucetPay es una <strong>billetera digital (micro-wallet)</strong> diseñada específicamente para quienes ganan criptomonedas en faucets y sitios de tareas.</p>
+                <p>En lugar de tener que retirar 1 dólar de 10 páginas diferentes (perdiendo dinero en comisiones), usas FaucetPay como centro de acopio.</p>
+                <p><strong>Sus ventajas principales:</strong></p>
+                <ul>
+                    <li><strong>Sin comisiones:</strong> Recibir pagos de las faucets es gratis.</li>
+                    <li><strong>Todo en uno:</strong> Soporta más de 20 criptomonedas (BTC, DOGE, LTC, USDT, etc.).</li>
+                    <li><strong>Retiros:</strong> Puedes enviar a tu billetera personal (Binance, Trust Wallet) cuando tengas el mínimo.</li>
+                    <li><strong>Fácil de usar:</strong> Solo necesitas un correo electrónico para empezar.</li>
+                </ul>
+                <p>Es el "banco central" de tu ecosistema de faucets.</p>`
+            },
+            en: {
+                title: "Earn Crypto Without Investment",
+                subtitle: "Verified payments to FaucetPay.",
+                updateBadge: "🔥 Updated today: 8 verified pages",
+                whatsappText: "More faucets, bots & APKs on my channel",
+                btn_register: "Register Now",
+                btn_no_faucetpay: "No FaucetPay account?",
+                desc_fire: "Veteran since 2018. Earn by watching ads and tasks.",
+                min_fire: "Min: $2.50 USD",
+                desc_vie: "Almost instant withdrawals to FaucetPay.",
+                min_vie: "Min: ~$0.01 USD",
+                desc_myc: "Live payment proofs. Faucet and offers.",
+                min_var: "Min: Variable",
+                desc_bunny: "New but with proven payments. PTC and clicks.",
+                min_consult: "Min: Check site",
+                desc_em: "New site tested successfully. Direct withdrawals.",
+                desc_coinli: "Earn from tasks, videos, and offers. FaucetPay withdrawals.",
+                min_001: "Min: $0.01 USD",
+                desc_lime: "Fastest faucet. Claim every 5 minutes. Supports 10+ cryptos.",
+                min_instant: "Min: Instant to FaucetPay",
+                desc_lootizy: "Earn rewards completing simple tasks and offers. FaucetPay withdrawals.",
+                fp_title: "FaucetPay Wallet",
+                fp_desc: "Receive payments from all these faucets in one place.",
+                fp_btn: "Start earning now (Free)",
+                link_faucet: "What is a faucet?",
+                link_fp: "What is FaucetPay?",
+                disclaimer: "Notice: Links are affiliate links. I receive a small commission at no extra cost to you.",
+                modal_f_title: "🚰 What is a Faucet?",
+                modal_f_content: `<p>A "faucet" is a website that <strong>gives away small amounts of cryptocurrency</strong> in exchange for your time.</p>
+                <p>Why do they do it? Because the owners of these pages make money by showing ads or doing surveys. They keep a portion and give you the other.</p>
+                <p><strong>How do they work?</strong></p>
+                <ul>
+                    <li>You register for free.</li>
+                    <li>You click on ads or watch videos.</li>
+                    <li>You accumulate points or "satoshis" (crypto fractions).</li>
+                    <li>When you reach the minimum, you withdraw to your wallet (like FaucetPay).</li>
+                </ul>
+                <p>It's a real way to start in the crypto world without investing money!</p>`,
+                modal_fp_title: "💳 What is FaucetPay?",
+                modal_fp_content: `<p>FaucetPay is a <strong>digital wallet (micro-wallet)</strong> designed specifically for those who earn crypto on faucets and task sites.</p>
+                <p>Instead of having to withdraw $1 from 10 different pages (losing money on fees), you use FaucetPay as a collection center.</p>
+                <p><strong>Its main advantages:</strong></p>
+                <ul>
+                    <li><strong>No fees:</strong> Receiving payments from faucets is free.</li>
+                    <li><strong>All in one:</strong> Supports 20+ cryptocurrencies (BTC, DOGE, LTC, USDT, etc.).</li>
+                    <li><strong>Withdrawals:</strong> You can send to your personal wallet (Binance, Trust Wallet) when you have the minimum.</li>
+                    <li><strong>Easy to use:</strong> You only need an email to start.</li>
+                </ul>
+                <p>It's the "central bank" of your faucet ecosystem.</p>`
+            },
+            ru: {
+                title: "Зарабатывай крипту без вложений",
+                subtitle: "Проверенные выплаты на FaucetPay.",
+                updateBadge: "🔥 Обновлено сегодня: 8 проверенных страниц",
+                whatsappText: "Больше кранов, ботов и APK в моем канале",
+                btn_register: "Зарегистрироваться",
+                btn_no_faucetpay: "Нет FaucetPay?",
+                desc_fire: "Ветеран с 2018 года. Зарабатывайте на просмотре рекламы и заданиях.",
+                min_fire: "Мин: $2.50 USD",
+                desc_vie: "Почти мгновенные выводы на FaucetPay.",
+                min_vie: "Мин: ~$0.01 USD",
+                desc_myc: "Живые доказательства выплат. Кран и офферы.",
+                min_var: "Мин: Зависит",
+                desc_bunny: "Новый, но с подтвержденными выплатами. PTC и клики.",
+                min_consult: "Мин: Смотреть на сайте",
+                desc_em: "Новый сайт, успешно протестирован. Прямые выводы.",
+                desc_coinli: "Зарабатывайте на заданиях, видео и офферах. Вывод на FaucetPay.",
+                min_001: "Мин: $0.01 USD",
+                desc_lime: "Самый быстрый кран. Сбор каждые 5 минут. Поддержка 10+ криптовалют.",
+                min_instant: "Мин: Мгновенно на FaucetPay",
+                desc_lootizy: "Получайте награды за простые задания и офферы. Вывод на FaucetPay.",
+                fp_title: "Кошелек FaucetPay",
+                fp_desc: "Получайте выплаты со всех этих кранов в одном месте.",
+                fp_btn: "Начать зарабатывать (Бесплатно)",
+                link_faucet: "Что такое кран?",
+                link_fp: "Что такое FaucetPay?",
+                disclaimer: "Внимание: Ссылки являются партнерскими. Я получаю небольшую комиссию без дополнительных затрат для вас.",
+                modal_f_title: "🚰 Что такое кран (faucet)?",
+                modal_f_content: `<p>«Кран» — это веб-сайт, который <strong>раздает небольшие amounts криптовалюты</strong> в обмен на ваше время.</p>
+                <p>Зачем они это делают? Потому что владельцы этих страниц зарабатывают деньги, показывая рекламу или проводя опросы. Они оставляют себе часть, а другую отдают вам.</p>
+                <p><strong>Как они работают?</strong></p>
+                <ul>
+                    <li>Вы регистрируетесь бесплатно.</li>
+                    <li>Вы кликаете по рекламе или смотрите видео.</li>
+                    <li>Вы накапливаете баллы или «сатоши» (доли криптовалюты).</li>
+                    <li>Когда вы достигаете минимума, вы выводите их на свой кошелек (например, FaucetPay).</li>
+                </ul>
+                <p>Это реальный способ начать в мире криптовалют, не вкладывая деньги!</p>`,
+                modal_fp_title: "💳 Что такое FaucetPay?",
+                modal_fp_content: `<p>FaucetPay — это <strong>цифровой кошелек (микро-кошелек)</strong>, специально разработанный для тех, кто зарабатывает криптовалюту на кранах и сайтах с заданиями.</p>
+                <p>Вместо того чтобы выводить по 1 доллару с 10 разных страниц (теряя деньги на комиссиях), вы используете FaucetPay как центр сбора.</p>
+                <p><strong>Его главные преимущества:</strong></p>
+                <ul>
+                    <li><strong>Без комиссий:</strong> Получение платежей с кранов бесплатно.</li>
+                    <li><strong>Все в одном:</strong> Поддерживает более 20 криптовалют (BTC, DOGE, LTC, USDT и др.).</li>
+                    <li><strong>Выводы:</strong> Вы можете отправить на свой личный кошелек (Binance, Trust Wallet), когда у вас будет минимум.</li>
+                    <li><strong>Простота в использовании:</strong> Для начала вам нужна только электронная почта.</li>
+                </ul>
+                <p>Это «центральный банк» вашей экосистемы кранов.</p>`
+            },
+            fr: {
+                title: "Gagnez des Cryptos Sans Investissement",
+                subtitle: "Paiements vérifiés vers FaucetPay.",
+                updateBadge: "🔥 Mis à jour aujourd'hui : 8 pages vérifiées",
+                whatsappText: "Plus de faucets, bots et APKs sur ma chaîne",
+                btn_register: "S'inscrire",
+                btn_no_faucetpay: "Pas de FaucetPay ?",
+                desc_fire: "Vétéran depuis 2018. Gagnez en regardant des pubs et des tâches.",
+                min_fire: "Min : 2,50 $ USD",
+                desc_vie: "Retraits presque instantanés vers FaucetPay.",
+                min_vie: "Min : ~0,01 $ USD",
+                desc_myc: "Preuves de paiement en direct. Faucet et offres.",
+                min_var: "Min : Variable",
+                desc_bunny: "Nouveau mais avec des paiements prouvés. PTC et clics.",
+                min_consult: "Min : Voir le site",
+                desc_em: "Nouveau site testé avec succès. Retraits directs.",
+                desc_coinli: "Gagnez grâce à des tâches, vidéos et offres. Retraits vers FaucetPay.",
+                min_001: "Min : 0,01 $ USD",
+                desc_lime: "Le faucet le plus rapide. Réclamez toutes les 5 minutes. Supporte 10+ cryptos.",
+                min_instant: "Min : Instantané vers FaucetPay",
+                desc_lootizy: "Gagnez des récompenses en complétant des tâches simples et des offres. Retraits vers FaucetPay.",
+                fp_title: "Portefeuille FaucetPay",
+                fp_desc: "Recevez les paiements de tous ces faucets en un seul endroit.",
+                fp_btn: "Commencer à gagner (Gratuit)",
+                link_faucet: "Qu'est-ce qu'un faucet ?",
+                link_fp: "Qu'est-ce que FaucetPay ?",
+                disclaimer: "Avis : Les liens sont des liens d'affiliation. Je reçois une petite commission sans frais supplémentaires pour vous.",
+                modal_f_title: "🚰 Qu'est-ce qu'un Faucet ?",
+                modal_f_content: `<p>Un "faucet" (robinet en anglais) est un site Web qui <strong>distribue de petites quantités de cryptomonnaies</strong> en échange de votre temps.</p>
+                <p>Pourquoi font-ils cela ? Parce que les propriétaires de ces pages gagnent de l'argent en affichant des publicités ou en réalisant des sondages. Ils en gardent une partie et vous donnent l'autre.</p>
+                <p><strong>Comment fonctionnent-ils ?</strong></p>
+                <ul>
+                    <li>Vous vous inscrivez gratuitement.</li>
+                    <li>Vous cliquez sur des publicités ou regardez des vidéos.</li>
+                    <li>Vous accumulez des points ou des "satoshis" (fractions de crypto).</li>
+                    <li>Lorsque vous atteignez le minimum, vous les retirez dans votre portefeuille (comme FaucetPay).</li>
+                </ul>
+                <p>C'est un moyen réel de débuter dans le monde de la crypto sans investir d'argent !</p>`,
+                modal_fp_title: "💳 Qu'est-ce que FaucetPay ?",
+                modal_fp_content: `<p>FaucetPay est un <strong>portefeuille numérique (micro-wallet)</strong> conçu spécifiquement pour ceux qui gagnent des cryptomonnaies sur des faucets et des sites de tâches.</p>
+                <p>Au lieu de devoir retirer 1 dollar de 10 pages différentes (en perdant de l'argent sur les frais), vous utilisez FaucetPay comme centre de collecte.</p>
+                <p><strong>Ses principaux avantages :</strong></p>
+                <ul>
+                    <li><strong>Sans frais :</strong> Recevoir des paiements des faucets est gratuit.</li>
+                    <li><strong>Tout-en-un :</strong> Prend en charge plus de 20 cryptomonnaies (BTC, DOGE, LTC, USDT, etc.).</li>
+                    <li><strong>Retraits :</strong> Vous pouvez envoyer vers votre portefeuille personnel (Binance, Trust Wallet) lorsque vous avez le minimum.</li>
+                    <li><strong>Facile à utiliser :</strong> Vous n'avez besoin que d'un e-mail pour commencer.</li>
+                </ul>
+                <p>C'est la "banque centrale" de votre écosystème de faucets.</p>`
+            },
+            pt: {
+                title: "Ganhe Cripto Sem Investimento",
+                subtitle: "Pagamentos verificados para FaucetPay.",
+                updateBadge: "🔥 Atualizado hoje: 8 páginas verificadas",
+                whatsappText: "Mais faucets, bots e APKs no meu canal",
+                btn_register: "Registrar-me",
+                btn_no_faucetpay: "Não tem FaucetPay?",
+                desc_fire: "Veterana desde 2018. Ganhe assistindo anúncios e tarefas.",
+                min_fire: "Mín: $2.50 USD",
+                desc_vie: "Saques quase instantâneos para FaucetPay.",
+                min_vie: "Mín: ~$0.01 USD",
+                desc_myc: "Provas de pagamento ao vivo. Faucet e ofertas.",
+                min_var: "Mín: Variável",
+                desc_bunny: "Novo, mas com pagamentos comprovados. PTC e cliques.",
+                min_consult: "Mín: Consultar",
+                desc_em: "Novo site testado com sucesso. Saques diretos.",
+                desc_coinli: "Ganhe por tarefas, vídeos e ofertas. Saques para FaucetPay.",
+                min_001: "Mín: $0.01 USD",
+                desc_lime: "O faucet mais rápido. Resgate a cada 5 minutos. Suporta mais de 10 criptomoedas.",
+                min_instant: "Mín: Instantâneo para FaucetPay",
+                desc_lootizy: "Ganhe recompensas completando tarefas simples e ofertas. Saques para FaucetPay.",
+                fp_title: "Carteira FaucetPay",
+                fp_desc: "Receba os pagamentos de todas essas faucets em um só lugar.",
+                fp_btn: "Começar a ganhar agora (Grátis)",
+                link_faucet: "O que é uma faucet?",
+                link_fp: "O que é FaucetPay?",
+                disclaimer: "Aviso: Os links são de afiliado. Recebo uma pequena comissão sem custo extra para você.",
+                modal_f_title: "🚰 O que é uma Faucet?",
+                modal_f_content: `<p>Uma "faucet" (torneira em inglês) é um site que <strong>distribui pequenas quantidades de criptomoedas</strong> em troca do seu tempo.</p>
+                <p>Por que eles fazem isso? Porque os donos dessas páginas ganham dinheiro exibindo anúncios ou fazendo pesquisas. Eles ficam com uma parte e dão a outra para você.</p>
+                <p><strong>Como funcionam?</strong></p>
+                <ul>
+                    <li>Você se registra gratuitamente.</li>
+                    <li>Você clica em anúncios ou assiste a vídeos.</li>
+                    <li>Você acumula pontos ou "satoshis" (frações de cripto).</li>
+                    <li>Quando atinge o mínimo, você os retira para sua carteira (como FaucetPay).</li>
+                </ul>
+                <p>É uma forma real de começar no mundo cripto sem investir dinheiro!</p>`,
+                modal_fp_title: "💳 O que é FaucetPay?",
+                modal_fp_content: `<p>FaucetPay é uma <strong>carteira digital (micro-wallet)</strong> projetada especificamente para quem ganha criptomoedas em faucets e sites de tarefas.</p>
+                <p>Em vez de ter que retirar 1 dólar de 10 páginas diferentes (perdendo dinheiro em taxas), você usa o FaucetPay como centro de coleta.</p>
+                <p><strong>Suas principais vantagens:</strong></p>
+                <ul>
+                    <li><strong>Sem taxas:</strong> Receber pagamentos das faucets é grátis.</li>
+                    <li><strong>Tudo em um:</strong> Suporta mais de 20 criptomoedas (BTC, DOGE, LTC, USDT, etc.).</li>
+                    <li><strong>Saques:</strong> Você pode enviar para sua carteira pessoal (Binance, Trust Wallet) quando tiver o mínimo.</li>
+                    <li><strong>Fácil de usar:</strong> Você só precisa de um e-mail para começar.</li>
+                </ul>
+                <p>É o "banco central" do seu ecossistema de faucets.</p>`
+            }
+        };
+
+        function changeLanguage(lang) {
+            // Actualizar bandera actual
+            const flags = {
+                es: 'https://flagcdn.com/w40/es.png',
+                en: 'https://flagcdn.com/w40/gb.png',
+                ru: 'https://flagcdn.com/w40/ru.png',
+                fr: 'https://flagcdn.com/w40/fr.png',
+                pt: 'https://flagcdn.com/w40/br.png'
+            };
+            document.getElementById('current-flag').src = flags[lang];
+
+            // Cerrar menú
+            document.getElementById('lang-dropdown').classList.remove('active');
+
+            // Cambiar textos
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    // Si es contenido HTML (para los modales)
+                    if (key.includes('content')) {
+                        el.innerHTML = translations[lang][key];
+                    } else {
+                        el.textContent = translations[lang][key];
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
